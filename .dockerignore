@@ -1,0 +1,9 @@
+README.md
+.git
+.gitignore
+*.pyc
+__pycache__
+*.md
+.DS_Store
+*.log
+test_*
