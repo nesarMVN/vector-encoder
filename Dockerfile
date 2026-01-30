@@ -22,8 +22,11 @@ RUN pip install --upgrade pip setuptools wheel && \
 COPY download_models.py .
 RUN python download_models.py
 
-# Copy handler
-COPY handler.py .
+# Copy FastAPI handler
+COPY handler_fastapi.py .
 
-# RunPod starts the handler automatically
-CMD ["python", "-u", "handler.py"]
+# Expose port for Load Balancer mode
+EXPOSE 8000
+
+# Start FastAPI server
+CMD ["python", "-u", "handler_fastapi.py"]
