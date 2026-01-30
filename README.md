@@ -20,31 +20,21 @@ Serverless microservice for encoding text and images into vector embeddings.
 
 ## Deployment
 
-### Option A: Automated Build (GitHub Actions + Depot)
+### Option A: Automated Build (GitHub Actions)
 
 The Docker image is automatically built and pushed to GitHub Container Registry on every push to `main`.
 
-**Setup:**
+**Push code:**
+```bash
+git push origin main
+```
 
-1. **Create Depot.dev account:**
-   - Go to https://depot.dev
-   - Create new project
-   - Copy Project ID
+**Image available at:**
+```
+ghcr.io/nesarmvn/vector-encoder:latest
+```
 
-2. **Add GitHub Secrets:**
-   - Go to repository Settings → Secrets and variables → Actions
-   - Add: `DEPOT_PROJECT_ID` (from depot.dev)
-   - Add: `DEPOT_TOKEN` (from depot.dev)
-
-3. **Push code:**
-   ```bash
-   git push origin main
-   ```
-
-4. **Image available at:**
-   ```
-   ghcr.io/nesarmvn/vector-encoder:latest
-   ```
+Build takes ~5-8 minutes on GitHub runners.
 
 ### Option B: Manual Build
 
