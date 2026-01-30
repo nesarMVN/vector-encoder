@@ -20,26 +20,51 @@ Serverless microservice for encoding text and images into vector embeddings.
 
 ## Deployment
 
-### 1. Build Docker Image
+### Option A: Automated Build (GitHub Actions + Depot)
+
+The Docker image is automatically built and pushed to GitHub Container Registry on every push to `main`.
+
+**Setup:**
+
+1. **Create Depot.dev account:**
+   - Go to https://depot.dev
+   - Create new project
+   - Copy Project ID
+
+2. **Add GitHub Secrets:**
+   - Go to repository Settings → Secrets and variables → Actions
+   - Add: `DEPOT_PROJECT_ID` (from depot.dev)
+   - Add: `DEPOT_TOKEN` (from depot.dev)
+
+3. **Push code:**
+   ```bash
+   git push origin main
+   ```
+
+4. **Image available at:**
+   ```
+   ghcr.io/nesarmvn/vector-encoder:latest
+   ```
+
+### Option B: Manual Build
 
 ```bash
-cd runpod-vector-service
-docker build -t your-dockerhub-username/vector-encoder:latest .
-docker push your-dockerhub-username/vector-encoder:latest
+docker build -t ghcr.io/nesarmvn/vector-encoder:latest .
+docker push ghcr.io/nesarmvn/vector-encoder:latest
 ```
 
-### 2. Create RunPod Serverless Endpoint
+### Create RunPod Serverless Endpoint
 
 1. Go to https://runpod.io/console/serverless
 2. Click "New Endpoint"
 3. Configure:
    - **Name**: vector-encoder
-   - **Container Image**: `your-dockerhub-username/vector-encoder:latest`
-   - **GPU Type**: T4 (cheapest) or A10 (faster)
-   - **Min Workers**: 0 (pay only when used)
+   - **Container Image**: `ghcr.io/nesarmvn/vector-encoder:latest`
+   - **GPU Type**: T4 (cheapest) or RTX 3090 (better value)
+   - **Min Workers**: 0 (pay only when used) or 1 (keep warm, ~$70/month)
    - **Max Workers**: 10 (adjust based on load)
    - **Idle Timeout**: 5 seconds
-   - **Regions**: Select all or choose Asia regions if available
+   - **Regions**: Select all or choose Asia regions for Bangladesh
 4. Click "Deploy"
 
 ### 3. Get Endpoint URL
