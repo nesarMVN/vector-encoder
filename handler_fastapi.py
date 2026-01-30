@@ -19,6 +19,7 @@ import requests
 from io import BytesIO
 import time
 import uvicorn
+import os
 
 app = FastAPI(title="Vector Encoder API")
 
@@ -82,6 +83,12 @@ async def root():
             "image": "openclip/ViT-B-32"
         }
     }
+
+
+@app.get("/ping")
+async def ping():
+    """RunPod Load Balancer health check endpoint"""
+    return {"status": "ok"}
 
 
 @app.post("/encode/text")
@@ -202,4 +209,6 @@ async def encode_batch_images(request: BatchImageRequest):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
+    port = int(os.environ.get("PORT", 8000))
+    print(f"Starting FastAPI server on 0.0.0.0:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
